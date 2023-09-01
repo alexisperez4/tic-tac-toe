@@ -10,3 +10,7 @@ export const chekWinner = (boardToCheck) => {
     // si no hay ganador retorna null
     return null
 }
+
+export const chekEndGame = (newBoard) => {
+    return newBoard.every((square) => square !== null)
+}
