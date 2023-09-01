@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import confetti from 'canvas-confetti'
 import './App.css'
 
 const TURNS = {
@@ -72,6 +73,7 @@ function App() {
     // verificar si existe un ganador
     const newWinner = chekWinner(newBoard);
     if (newWinner) {
+      confetti()
       setWinner(newWinner);
     } else if(chekEndGame(newBoard)){
       setWinner(false); //empate
