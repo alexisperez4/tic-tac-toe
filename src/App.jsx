@@ -46,6 +46,16 @@ function App() {
     return null
   }
 
+  const resetGame = ()=> {
+    setBoard(Array(9).fill(null));
+    setTurn(TURNS.X);
+    setWinner(null);
+  }
+
+  const chekEndGame = (newBoard) => {
+    return newBoard.every((square) => square !== null)
+  }
+
   const updateBoard = (index) => {
     // no se actualiza esta posicion si ya tiene  algo
     if (board[index] || winner) return;
@@ -63,7 +73,10 @@ function App() {
     const newWinner = chekWinner(newBoard);
     if (newWinner) {
       setWinner(newWinner);
+    } else if(chekEndGame(newBoard)){
+      setWinner(false); //empate
     }
+
 
 
   }
@@ -71,16 +84,17 @@ function App() {
   return (
     <main className='board'>
       <h1>Tic Tac Toe</h1>
+      <button onClick={resetGame}>Reset del juego</button>
       <section className='game'>
         {
-          board.map((_, index) => {
+          board.map((square, index) => {
             return (
               <Square
                 key={index}
                 index={index}
                 updateBoard={updateBoard}
               >
-                {board[index]}
+                {square}
               </Square>
             )
           })
@@ -95,7 +109,27 @@ function App() {
           {TURNS.O}
         </Square>
       </section>
-    
+      
+      {
+        winner !== null && (
+          <section className='winner'>
+            <div className='text'>
+              <h2>
+                {
+                  winner === false ? 'Empate' : 'Ganó'
+                }
+              </h2>
+              <header className='win'>
+                {winner && <Square>{winner}</Square>}
+              </header>
+
+              <footer>
+                <button onClick={resetGame}>Empezar de nuevo</button>
+              </footer>
+            </div>
+          </section>
+        )
+      }
     </main>
   )
 
